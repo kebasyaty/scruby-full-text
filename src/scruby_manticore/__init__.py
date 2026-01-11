@@ -17,6 +17,10 @@
 
 from __future__ import annotations
 
-__all__ = ("Manticore",)
+__all__ = (
+    "Manticore",
+    "LANGUAGES",
+)
 
 from scruby_manticore.plugin import Plugin as Manticore
+from scruby_manticore.settings import LANGUAGES
