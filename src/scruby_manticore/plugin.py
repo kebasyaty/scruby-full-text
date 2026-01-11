@@ -29,7 +29,7 @@ class Manticore:
     @staticmethod
     async def _task_find(
         branch_number: int,
-        full_text_filter_fn: dict[str, str],  # noqa: ARG004
+        full_text_filter: dict[str, str],  # noqa: ARG004
         filter_fn: Callable,
         hash_reduce_left: str,
         db_root: str,
@@ -64,7 +64,7 @@ class Manticore:
 
     async def find_one(
         self,
-        full_text_filter_fn: dict[str, str],
+        full_text_filter: dict[str, str],
         filter_fn: Callable = lambda _: True,
     ) -> Any | None:
         """Find a one document that matches the filter, using full-text search.
@@ -74,6 +74,9 @@ class Manticore:
             - The search effectiveness depends on the number of processor threads.
 
         Args:
+            full_text_filter (dict[str, str]): Filter for full-text search.
+                                               Key -> name of text field.
+                                               Value -> text query.
             filter_fn (Callable): A function that execute the conditions of filtering.
 
         Returns:
@@ -92,7 +95,7 @@ class Manticore:
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    full_text_filter_fn,
+                    full_text_filter,
                     filter_fn,
                     hash_reduce_left,
                     db_root,
@@ -105,7 +108,7 @@ class Manticore:
 
     async def find_many(
         self,
-        full_text_filter_fn: dict[str, str],
+        full_text_filter: dict[str, str],
         filter_fn: Callable = lambda _: True,
         limit_docs: int = 100,
         page_number: int = 1,
@@ -117,6 +120,9 @@ class Manticore:
             - The search effectiveness depends on the number of processor threads.
 
         Args:
+            full_text_filter (dict[str, str]): Filter for full-text search.
+                                               Key -> name of text field.
+                                               Value -> text query.
             filter_fn (Callable): A function that execute the conditions of filtering.
                                   By default it searches for all documents.
             limit_docs (int): Limiting the number of documents. By default = 100.
@@ -146,7 +152,7 @@ class Manticore:
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    full_text_filter_fn,
+                    full_text_filter,
                     filter_fn,
                     hash_reduce_left,
                     db_root,
