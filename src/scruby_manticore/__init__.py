@@ -19,4 +19,4 @@ from __future__ import annotations
 
 __all__ = ("Manticore",)
 
-from scruby_manticore.plugin import Manticore
+from scruby_manticore.plugin import Plugin as Manticore

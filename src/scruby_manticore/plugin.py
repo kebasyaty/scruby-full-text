@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-__all__ = ("Manticore",)
+__all__ = ("Plugin",)
 
 import concurrent.futures
 import weakref
@@ -16,7 +16,7 @@ import orjson
 from anyio import Path
 
 
-class Manticore:
+class Plugin:
     """Plugin for Scruby based on Manticore Search."""
 
     def __init__(self, scruby) -> None:  # noqa: D107
