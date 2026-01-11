@@ -14,3 +14,9 @@
 # Copyright (c) 2026 Gennady Kostyunin
 # SPDX-License-Identifier: MIT
 """Scruby-Manticore - Full-text search with Manticore Search."""
+
+from __future__ import annotations
+
+__all__ = ("Manticore",)
+
+from scruby_manticore.plugin import Manticore
