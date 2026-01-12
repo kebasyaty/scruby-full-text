@@ -8,7 +8,7 @@
     </a>
   </p>
   <p>
-    <h1>scruby-full-text</h1>
+    <h1>scruby - full text</h1>
     <h3>Full-text search with Manticore Search.</h3>
     <p align="center">
       <a href="https://github.com/kebasyaty/scruby-full-text/actions/workflows/test.yml" alt="Build Status"><img src="https://github.com/kebasyaty/scruby-full-text/actions/workflows/test.yml/badge.svg" alt="Build Status"></a>
@@ -72,4 +72,4 @@ import scruby_full_text
 
 ## License
 
-This project is licensed under the [MIT](https://github.com/kebasyaty/scruby-full-text/blob/main/LICENSE "MIT").
+This project is licensed under the [GPL-3.0-or-later](https://github.com/kebasyaty/scruby-full-text/blob/main/LICENSE "GPL-3.0-or-later").
