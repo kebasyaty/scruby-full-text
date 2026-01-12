@@ -35,7 +35,7 @@ jobs:
           apt update
           apt install -y wget gnupg2 git
           wget https://repo.manticoresearch.com/manticore-repo.noarch.deb
-          dpkg -i manticore-repo.noarch.deb
+          apt install -y manticore-repo.noarch.deb
           apt install -y manticore manticore-extra
           service manticore start
 
