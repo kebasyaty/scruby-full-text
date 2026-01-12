@@ -29,6 +29,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install system dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          apt update
+          apt install -y gnupg2 systemctl git
+          systemctl start manticore
+
       - uses: astral-sh/setup-uv@v7
         with:
           version: ${{ matrix.uv-version }}
