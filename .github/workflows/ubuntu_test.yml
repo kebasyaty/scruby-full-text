@@ -33,7 +33,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           apt update
-          apt install -y git
+          apt install -y systemctl git
           systemctl start manticore
 
       - uses: astral-sh/setup-uv@v7
