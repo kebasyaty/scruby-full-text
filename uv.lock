@@ -1342,7 +1342,7 @@ wheels = [
 ]
 
 [[package]]
-name = "scruby-manticore"
+name = "scruby-full-text"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -1375,7 +1375,7 @@ test = [
 requires-dist = [{ name = "manticoresearch", git = "https://github.com/manticoresoftware/manticoresearch-python-asyncio.git" }]
 
 [package.metadata.requires-dev]
-dev = [{ name = "scruby", specifier = ">=0.31.0" }]
+dev = [{ name = "scruby", specifier = ">=0.32.0" }]
 docs = [
     { name = "mike", specifier = ">=2.1.3" },
     { name = "mkdocs", specifier = ">=1.6.1" },
