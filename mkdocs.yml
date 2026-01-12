@@ -35,11 +35,11 @@ theme:
     - toc.follow
   palette:
     scheme: slate
-    primary: orange
-    accent: orange
+    primary: indigo
+    accent: indigo
 
 extra_css:
-  - custom_style/github_orange.css
+  - custom_style/github_indigo.css
 
 plugins:
   - search
