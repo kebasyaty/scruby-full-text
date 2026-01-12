@@ -28,7 +28,7 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install manticoresearch manticore-extra
+          brew install manticoresoftware/tap/manticoresearch manticoresoftware/tap/manticore-extra
           brew services start manticoresearch
 
       - uses: astral-sh/setup-uv@v7
