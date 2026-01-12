@@ -36,7 +36,7 @@ jobs:
           apt install -y wget gnupg2 systemctl git
           wget https://repo.manticoresearch.com/manticore-repo.noarch.deb
           dpkg -i manticore-repo.noarch.deb
-          apt install -y manticore manticore-columnar-lib
+          apt install -y manticore manticore-extra
           systemctl start manticore
 
       - name: Install system dependencies (macOS)
