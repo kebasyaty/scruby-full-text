@@ -1,5 +1,5 @@
 [project]
-name = "scruby-manticore"
+name = "scruby-full-text"
 version = "0.1.0"
 description = "Full-text search with Manticore Search."
 readme = "README.md"
@@ -27,16 +27,14 @@ classifiers = [
     "Topic :: Database", # <------------------------------------------ ???
     "Typing :: Typed",
 ]
-dependencies = [
-    "manticoresearch",
-]
+dependencies = ["manticoresearch"]
 
 [project.urls]
-Homepage = "https://kebasyaty.github.io/scruby-manticore/"
-Repository = "https://github.com/kebasyaty/scruby-manticore"
-Source = "https://github.com/kebasyaty/scruby-manticore"
-"Bug Tracker" = "https://github.com/kebasyaty/scruby-manticore/issues"
-Changelog = "https://github.com/kebasyaty/scruby-manticore/blob/v0/CHANGELOG.md"
+Homepage = "https://kebasyaty.github.io/scruby-full-text/"
+Repository = "https://github.com/kebasyaty/scruby-full-text"
+Source = "https://github.com/kebasyaty/scruby-full-text"
+"Bug Tracker" = "https://github.com/kebasyaty/scruby-full-text/issues"
+Changelog = "https://github.com/kebasyaty/scruby-full-text/blob/v0/CHANGELOG.md"
 
 [tool.uv]
 package = true
