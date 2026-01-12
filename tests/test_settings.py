@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from scruby_manticore import manticore_lang
+from scruby_manticore import fullTextLang
 
 languages = {
     "Arabic": "libstemmer_ar",
@@ -41,5 +41,5 @@ class TestPositive:
 
     def test_supported_languages(self) -> None:
         """Testing supported languages."""
-        for lang_name, search_type in languages.items():
-            assert manticore_lang.get(lang_name) == search_type
+        for lang, morphology in languages.items():
+            assert fullTextLang.get(lang) == morphology
