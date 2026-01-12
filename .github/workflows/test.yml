@@ -10,8 +10,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest] # ubuntu-latest
-        python-version: ["3.14"]
+        os: [macos-latest]
+        python-version: ["3.12", "3.13", "3.14"]
         uv-version: ["latest"]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} Python ${{ matrix.python-version }}
