@@ -49,9 +49,6 @@ module-root = "src"
 [tool.uv.sources]
 manticoresearch = { git = "https://github.com/manticoresoftware/manticoresearch-python-asyncio.git" }
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/scruby_full_text"]
-
 [build-system]
 requires = ["uv_build>=0.9.24,<0.10.0"]
 build-backend = "uv_build"
