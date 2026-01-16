@@ -19,8 +19,8 @@ from __future__ import annotations
 
 __all__ = (
     "FullText",
-    "fullTextLang",
+    "settings",
 )
 
+from scruby_full_text import settings
 from scruby_full_text.plugin import FullText
-from scruby_full_text.settings import LANGUAGES as fullTextLang
