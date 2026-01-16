@@ -25,7 +25,7 @@ class FullText(ScrubyPlugin):
     @staticmethod
     def _task_find(
         branch_number: int,
-        language: Any,  # noqa: ARG004
+        lang_morphology: tuple[str, str],  # noqa: ARG004
         full_text_filter: dict[str, str],  # noqa: ARG004
         filter_fn: Callable,
         hash_reduce_left: str,
@@ -61,7 +61,7 @@ class FullText(ScrubyPlugin):
 
     async def find_one(
         self,
-        language: Any,
+        lang_morphology: tuple[str, str],
         full_text_filter: dict[str, str],
         filter_fn: Callable = lambda _: True,
     ) -> Any | None:
@@ -72,6 +72,7 @@ class FullText(ScrubyPlugin):
             - The search effectiveness depends on the number of processor threads.
 
         Args:
+            lang_morphology (tuple[str, str]): Tuple with code of language and morphology.
             full_text_filter (dict[str, str]): Filter for full-text search.
                                                Key -> name of text field.
                                                Value -> text query.
@@ -93,7 +94,7 @@ class FullText(ScrubyPlugin):
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    language,
+                    lang_morphology,
                     full_text_filter,
                     filter_fn,
                     hash_reduce_left,
@@ -107,7 +108,7 @@ class FullText(ScrubyPlugin):
 
     async def find_many(
         self,
-        language: Any,
+        lang_morphology: tuple[str, str],
         full_text_filter: dict[str, str],
         filter_fn: Callable = lambda _: True,
         limit_docs: int = 100,
@@ -120,6 +121,7 @@ class FullText(ScrubyPlugin):
             - The search effectiveness depends on the number of processor threads.
 
         Args:
+            lang_morphology (tuple[str, str]): Tuple with code of language and morphology.
             full_text_filter (dict[str, str]): Filter for full-text search.
                                                Key -> name of text field.
                                                Value -> text query.
@@ -152,7 +154,7 @@ class FullText(ScrubyPlugin):
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    language,
+                    lang_morphology,
                     full_text_filter,
                     filter_fn,
                     hash_reduce_left,
