@@ -63,9 +63,11 @@ class FullText(ScrubyPlugin):
                 doc = class_model.model_validate_json(val)
                 if filter_fn(doc):
                     table_name: str = str(uuid.uuid4())
-                    test_field_list = full_text_filter.keys()
-                    doc_dict: dict[str, Any] = {key: val for key, val in orjson.loads(val) if key in test_field_list}
-                    table_fields: str = ",".join([f"{field_name} text" for field_name in test_field_list])
+                    text_field_list = full_text_filter.keys()
+                    text_field_dict: dict[str, Any] = {
+                        key: val for key, val in orjson.loads(val) if key in text_field_list
+                    }
+                    table_fields: str = ",".join([f"{field_name} text" for field_name in text_field_list])
                     lang_code: str = lang_morphology[0]  # noqa: F841
                     morphology: str = lang_morphology[1]
                     # Enter a context with an instance of the API client
@@ -80,7 +82,7 @@ class FullText(ScrubyPlugin):
                             # Performs a search on a table
                             insert_request = manticoresearch.InsertDocumentRequest(
                                 table=table_name,
-                                doc=doc_dict,
+                                doc=text_field_dict,
                             )
                             index_api.insert(insert_request)
                             search_query = manticoresearch.SearchQuery(match_phrase=full_text_filter)
