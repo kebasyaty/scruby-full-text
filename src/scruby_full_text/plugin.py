@@ -8,6 +8,7 @@ from __future__ import annotations
 __all__ = ("FullText",)
 
 import concurrent.futures
+import logging
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -60,12 +61,21 @@ class FullText(ScrubyPlugin):
             for _, val in data.items():
                 doc = class_model.model_validate_json(val)
                 if filter_fn(doc):
+                    table_name = ""
+                    table_fields = "title text, price float"
+                    morphology = "lemmatize_en_all"
+                    # Enter a context with an instance of the API client
                     with manticoresearch.ApiClient(config) as api_client:
                         # Create instances of API classes
-                        # Создаем экземпляры классов API
                         index_api = manticoresearch.IndexApi(api_client)  # noqa: F841
                         search_api = manticoresearch.SearchApi(api_client)  # noqa: F841
-                        utils_api = manticoresearch.UtilsApi(api_client)  # noqa: F841
+                        utils_api = manticoresearch.UtilsApi(api_client)
+                        try:
+                            utils_api.sql(f"CREATE TABLE {table_name}({table_fields}) morphology = '{morphology}'")
+                        except Exception:
+                            logging.exception("Exception when calling SearchApi.")
+                        finally:
+                            utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
                     #
                     docs.append(doc)
         return docs or None
