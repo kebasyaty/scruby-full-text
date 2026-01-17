@@ -11,11 +11,11 @@ import concurrent.futures
 import logging
 import uuid
 from collections.abc import Callable
-from pathlib import Path
 from typing import Any
 
 import manticoresearch
 import orjson
+from anyio import Path
 from scruby_plugin import ScrubyPlugin
 
 from scruby_full_text import settings
@@ -28,7 +28,7 @@ class FullText(ScrubyPlugin):
         ScrubyPlugin.__init__(self, scruby)
 
     @staticmethod
-    def _task_find(
+    async def _task_find(
         branch_number: int,
         lang_morphology: tuple[str, str],
         full_text_filter: tuple[str, str],
@@ -56,13 +56,13 @@ class FullText(ScrubyPlugin):
             ),
         )
         docs: list[Any] = []
-        if leaf_path.exists():
-            data_json: bytes = leaf_path.read_bytes()
+        if await leaf_path.exists():
+            data_json: bytes = await leaf_path.read_bytes()
             data: dict[str, str] = orjson.loads(data_json) or {}
             for _, val in data.items():
                 doc = class_model.model_validate_json(val)
                 if filter_fn(doc):
-                    table_name: str = "scruby_" + str(uuid.uuid4()).replace("-", "")[:16]
+                    table_name: str = "scruby_" + str(uuid.uuid4()).replace("-", "_")[:8]
                     text_field_name: str = full_text_filter[0]
                     doc_dict: dict[str, Any] = orjson.loads(val)
                     text_field_content = doc_dict[text_field_name]
@@ -70,35 +70,35 @@ class FullText(ScrubyPlugin):
                     lang_code: str = lang_morphology[0]  # noqa: F841
                     morphology: str = lang_morphology[1]
                     # Enter a context with an instance of the API client
-                    with manticoresearch.ApiClient(config) as api_client:
+                    async with manticoresearch.ApiClient(config) as api_client:
                         # Create instances of API classes
                         index_api = manticoresearch.IndexApi(api_client)
                         search_api = manticoresearch.SearchApi(api_client)
                         utils_api = manticoresearch.UtilsApi(api_client)
                         try:
                             sql_str = f"CREATE TABLE {table_name}({table_field}) morphology = '{morphology}'"
-                            utils_api.sql(sql_str)
+                            await utils_api.sql(sql_str)
                             # Performs a search on a table
                             insert_request = manticoresearch.InsertDocumentRequest(
                                 table=table_name,
                                 doc={text_field_name: text_field_content},
                             )
-                            index_api.insert(insert_request)
+                            await index_api.insert(insert_request)
                             search_query = manticoresearch.SearchQuery(
-                                match_phrase={text_field_name: full_text_filter[1]},
+                                query_string=f"@{text_field_name} {full_text_filter[1]}",
                             )
                             search_request = manticoresearch.SearchRequest(
                                 table=table_name,
                                 query=search_query,
                             )
-                            search_response = search_api.search(search_request)
+                            search_response = await search_api.search(search_request)
                             if len(search_response.hits.hits) > 0:
                                 docs.append(doc)
                         except Exception as err:
                             logging.exception("Exception when calling SearchApi.")
                             raise Exception from err
                         finally:
-                            utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
+                            await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
         return docs or None
 
     async def find_one(
@@ -117,7 +117,7 @@ class FullText(ScrubyPlugin):
             lang_morphology (tuple[str, str]): Tuple with code of language and morphology.
             full_text_filter (tuple[str, str]): Filter for full-text search.
                                                 full_text_filter[0] -> name of text field.
-                                                full_text_filter[1] -> text query.
+                                                full_text_filter[1] -> query string.
             filter_fn (Callable): A function that execute the conditions of filtering.
 
         Returns:
@@ -145,7 +145,7 @@ class FullText(ScrubyPlugin):
                     class_model,
                     config,
                 )
-                docs = future.result()
+                docs = await future.result()
                 if docs is not None:
                     return docs[0]
         return None
@@ -207,7 +207,7 @@ class FullText(ScrubyPlugin):
                     class_model,
                     config,
                 )
-                docs = future.result()
+                docs = await future.result()
                 if docs is not None:
                     for doc in docs:
                         if number_docs_skippe == 0:

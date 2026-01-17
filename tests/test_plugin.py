@@ -56,10 +56,17 @@ class TestPositive:
         # Find a car
         car: Car | None = await car_coll.plugins.fullText.find_one(
             lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
-            full_text_filter=("model", "EZ-6 3"),
+            full_text_filter=("brand", "SONY"),
         )
 
         assert car is None
+
+        car_2: Car | None = await car_coll.plugins.fullText.find_one(
+            lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
+            full_text_filter=("model", "EZ-6 9"),
+        )
+
+        assert car_2.model == "EZ-6 9"
         #
         # Full database deletion.
         # Hint: The main purpose is tests.
