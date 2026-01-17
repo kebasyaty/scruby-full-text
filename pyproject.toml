@@ -52,7 +52,7 @@ check-url = "https://pypi.org/simple"
 module-root = "src"
 
 [tool.uv.sources]
-manticoresearch = { git = "https://github.com/manticoresoftware/manticoresearch-python-asyncio.git" }
+manticoresearch = { git = "https://github.com/manticoresoftware/manticoresearch-python.git" }
 
 [build-system]
 requires = ["uv_build>=0.9.24,<0.10.0"]

@@ -9,11 +9,14 @@ __all__ = ("FullText",)
 
 import concurrent.futures
 from collections.abc import Callable
-from pathlib import Path as SyncPath
+from pathlib import Path
 from typing import Any
 
+import manticoresearch
 import orjson
 from scruby_plugin import ScrubyPlugin
+
+from scruby_full_text import settings
 
 
 class FullText(ScrubyPlugin):
@@ -31,6 +34,7 @@ class FullText(ScrubyPlugin):
         hash_reduce_left: str,
         db_root: str,
         class_model: Any,
+        config: manticoresearch.configuration.Configuration,
     ) -> list[Any] | None:
         """Task for finding documents, using full-text search.
 
@@ -41,7 +45,7 @@ class FullText(ScrubyPlugin):
         """
         branch_number_as_hash: str = f"{branch_number:08x}"[hash_reduce_left:]
         separated_hash: str = "/".join(list(branch_number_as_hash))
-        leaf_path = SyncPath(
+        leaf_path = Path(
             *(
                 db_root,
                 class_model.__name__,
@@ -56,6 +60,13 @@ class FullText(ScrubyPlugin):
             for _, val in data.items():
                 doc = class_model.model_validate_json(val)
                 if filter_fn(doc):
+                    with manticoresearch.ApiClient(config) as api_client:
+                        # Create instances of API classes
+                        # Создаем экземпляры классов API
+                        index_api = manticoresearch.IndexApi(api_client)  # noqa: F841
+                        search_api = manticoresearch.SearchApi(api_client)  # noqa: F841
+                        utils_api = manticoresearch.UtilsApi(api_client)  # noqa: F841
+                    #
                     docs.append(doc)
         return docs or None
 
@@ -88,6 +99,7 @@ class FullText(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
+        config = settings.CONFIG
         # Run quantum loop
         with concurrent.futures.ThreadPoolExecutor(scruby._max_workers) as executor:
             for branch_number in branch_numbers:
@@ -100,6 +112,7 @@ class FullText(ScrubyPlugin):
                     hash_reduce_left,
                     db_root,
                     class_model,
+                    config,
                 )
                 docs = future.result()
                 if docs is not None:
@@ -143,6 +156,7 @@ class FullText(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
+        config = settings.CONFIG
         counter: int = 0
         number_docs_skippe: int = limit_docs * (page_number - 1) if page_number > 1 else 0
         result: list[Any] = []
@@ -160,6 +174,7 @@ class FullText(ScrubyPlugin):
                     hash_reduce_left,
                     db_root,
                     class_model,
+                    config,
                 )
                 docs = future.result()
                 if docs is not None:
