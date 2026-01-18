@@ -5,6 +5,7 @@
 
 The module contains the following parameters:
 
+- `CONFIG` - Configuration options for https://github.com/manticoresoftware/manticoresearch-python-asyncio.
 - `LANGUAGES` - List of supported languages and full-text search algorithms.
 """
 
