@@ -12,10 +12,6 @@ from scruby_full_text import settings as full_text_settings
 
 pytestmark = pytest.mark.asyncio(loop_scope="module")
 
-# Full database deletion.
-# Hint: The main purpose is tests.
-Scruby.napalm()
-
 # Plugins connection.
 scruby_settings.PLUGINS = [
     FullText,
@@ -42,6 +38,10 @@ class TestPositive:
 
     async def test_find_one(self) -> None:
         """Test a `find_one` method."""
+        # Full database deletion.
+        # Hint: The main purpose is tests.
+        Scruby.napalm()
+        #
         # Get collection `Car`
         car_coll = await Scruby.collection(Car)
         # Create cars.
@@ -55,14 +55,14 @@ class TestPositive:
             await car_coll.add_doc(car)
         # Find a car
         car: Car | None = await car_coll.plugins.fullText.find_one(
-            lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
+            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
             full_text_filter=("brand", "SONY"),
         )
 
         assert car is None
 
         car_2: Car | None = await car_coll.plugins.fullText.find_one(
-            lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
+            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
             full_text_filter=("model", "EZ-6 9"),
         )
 
@@ -74,6 +74,10 @@ class TestPositive:
 
     async def test_find_many(self) -> None:
         """Test a `find_many` method."""
+        # Full database deletion.
+        # Hint: The main purpose is tests.
+        Scruby.napalm()
+        #
         # Get collection `Car`
         car_coll = await Scruby.collection(Car)
         # Create cars.
@@ -87,13 +91,13 @@ class TestPositive:
             await car_coll.add_doc(car)
         # Find a car
         car_list: list[Car] | None = await car_coll.plugins.fullText.find_many(
-            lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
+            morphology=full_text_settings.LANG_MORPHOLOGY.get("en"),
             full_text_filter=("brand", "SONY"),
         )
         assert car_list is None
 
         car_list_2: list[Car] | None = await car_coll.plugins.fullText.find_many(
-            lang_morphology=full_text_settings.LANG_FULL_TEXT_SEARCH.get("English"),
+            morphology=full_text_settings.LANG_MORPHOLOGY.get("en"),
             full_text_filter=("brand", "Mazda"),
         )
         assert car_list_2 is not None

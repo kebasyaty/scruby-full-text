@@ -30,7 +30,7 @@ class FullText(ScrubyPlugin):
     @staticmethod
     async def _task_find(
         branch_number: int,
-        lang_morphology: tuple[str, str],
+        morphology: str,
         full_text_filter: tuple[str, str],
         filter_fn: Callable,
         hash_reduce_left: str,
@@ -67,8 +67,6 @@ class FullText(ScrubyPlugin):
                     doc_dict: dict[str, Any] = orjson.loads(val)
                     text_field_content = doc_dict[text_field_name]
                     table_field: str = f"{text_field_name} text"
-                    lang_code: str = lang_morphology[0]  # noqa: F841
-                    morphology: str = lang_morphology[1]
                     # Enter a context with an instance of the API client
                     async with manticoresearch.ApiClient(config) as api_client:
                         # Create instances of API classes
@@ -103,7 +101,7 @@ class FullText(ScrubyPlugin):
 
     async def find_one(
         self,
-        lang_morphology: tuple[str, str],
+        morphology: str,
         full_text_filter: tuple[str, str],
         filter_fn: Callable = lambda _: True,
     ) -> Any | None:
@@ -114,7 +112,7 @@ class FullText(ScrubyPlugin):
             - The search effectiveness depends on the number of processor threads.
 
         Args:
-            lang_morphology (tuple[str, str]): Tuple with code of language and morphology.
+            morphology (str): String with morphology of language.
             full_text_filter (tuple[str, str]): Filter for full-text search.
                                                 full_text_filter[0] -> name of text field.
                                                 full_text_filter[1] -> query string.
@@ -137,7 +135,7 @@ class FullText(ScrubyPlugin):
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    lang_morphology,
+                    morphology,
                     full_text_filter,
                     filter_fn,
                     hash_reduce_left,
@@ -152,7 +150,7 @@ class FullText(ScrubyPlugin):
 
     async def find_many(
         self,
-        lang_morphology: tuple[str, str],
+        morphology: str,
         full_text_filter: tuple[str, str],
         filter_fn: Callable = lambda _: True,
         limit_docs: int = 100,
@@ -165,7 +163,7 @@ class FullText(ScrubyPlugin):
             - The search effectiveness depends on the number of processor threads.
 
         Args:
-            lang_morphology (tuple[str, str]): Tuple with code of language and morphology.
+            morphology (str): String with morphology of language.
             full_text_filter (tuple[str, str]): Filter for full-text search.
                                                 full_text_filter[0] -> name of text field.
                                                 full_text_filter[1] -> text query.
@@ -199,7 +197,7 @@ class FullText(ScrubyPlugin):
                 future = executor.submit(
                     search_task_fn,
                     branch_number,
-                    lang_morphology,
+                    morphology,
                     full_text_filter,
                     filter_fn,
                     hash_reduce_left,

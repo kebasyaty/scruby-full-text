@@ -45,10 +45,8 @@ class TestPositive:
 
     def test_supported_languages(self) -> None:
         """Test supported languages."""
-        for lang, data in LANGUAGES.items():
-            tmp = settings.LANG_FULL_TEXT_SEARCH.get(lang[0])
-            tmp_2 = settings.LANG_FULL_TEXT_SEARCH.get(lang[1])
-            assert tmp is not None
-            assert tmp_2 is not None
-            assert tmp == data
-            assert tmp_2 == data
+        for lang, morphology in LANGUAGES.items():
+            morphology_by_lang_name = settings.LANG_MORPHOLOGY.get(lang[0])
+            morphology_by_lang_code = settings.LANG_MORPHOLOGY.get(lang[1])
+            assert morphology_by_lang_name == morphology
+            assert morphology_by_lang_code == morphology
