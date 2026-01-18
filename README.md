@@ -31,18 +31,7 @@
 
 ##
 
-<p>
-  <a href="https://github.com/kebasyaty/scruby-full-text" alt="Project Status">
-    <img src="https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/project_status/project-status-pre-alpha.svg"
-      alt="Project Status">
-  </a>
-</p>
-
 <br>
-<br>
-
-<!-- <img src="https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/attention.svg" alt="Attention">
-<p>Some text ...</a> -->
 
 ## Documentation
 
@@ -137,4 +126,6 @@ if __name__ == "__main__":
 
 ## License
 
-This project is licensed under the [GPL-3.0-or-later](https://github.com/kebasyaty/scruby-full-text/blob/main/LICENSE "GPL-3.0-or-later").
+This project is licensed under the [MIT](https://github.com/kebasyaty/scruby-full-text/blob/main/MIT-LICENSE "MIT").
+
+This project is licensed under the [GPL-3.0-or-later](https://github.com/kebasyaty/scruby-full-text/blob/main/GPL-3.0-LICENSE "GPL-3.0-or-later").
