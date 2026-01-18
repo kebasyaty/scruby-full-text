@@ -1,3 +1,5 @@
+#### Example of using the plugin
+
 ```py title="main.py" linenums="1"
 import anyio
 from typing import Any
