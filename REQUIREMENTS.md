@@ -6,7 +6,10 @@
 
 #### Dependencies
 
+- [anyio](https://pypi.org/project/anyio/ "anyio")
 - [manticoresearch-python-asyncio](https://github.com/manticoresoftware/manticoresearch-python-asyncio.git "manticoresearch-python-asyncio")
+- [scruby-plugin](https://pypi.org/project/scruby-plugin/ "scruby-plugin")
+- [xloft](https://pypi.org/project/xloft/ "xloft")
 
 #### Dev-Dependencies
 
