@@ -115,6 +115,10 @@ def main() -> None:
     else:
       print("Not Found")
 
+    # Full database deletion.
+    # Hint: The main purpose is tests.
+    Scruby.napalm()
+
 
 if __name__ == "__main__":
     anyio.run(main)
