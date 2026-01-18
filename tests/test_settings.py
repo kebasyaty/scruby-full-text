@@ -6,7 +6,7 @@ from xloft import AliasDict
 
 from scruby_full_text import settings
 
-LANGUAGES = AliasDict(
+TEST_MORPHOLOGY = AliasDict(
     [
         ({"Arabic", "ar"}, "libstemmer_ar"),
         ({"Catalan", "ca"}, "libstemmer_ca"),
@@ -45,8 +45,8 @@ class TestPositive:
 
     def test_supported_languages(self) -> None:
         """Test supported languages."""
-        for lang, morphology in LANGUAGES.items():
-            morphology_by_lang_name = settings.LANG_MORPHOLOGY.get(lang[0])
-            morphology_by_lang_code = settings.LANG_MORPHOLOGY.get(lang[1])
+        for lang, morphology in TEST_MORPHOLOGY.items():
+            morphology_by_lang_name = settings.MORPHOLOGY.get(lang[0])
+            morphology_by_lang_code = settings.MORPHOLOGY.get(lang[1])
             assert morphology_by_lang_name == morphology
             assert morphology_by_lang_code == morphology

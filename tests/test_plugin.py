@@ -63,7 +63,7 @@ class TestNegative:
         await car_coll.add_doc(car)
 
         await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
+            morphology=full_text_settings.MORPHOLOGY.get("English"),
             full_text_filter=("non_existent_field", "Some query string"),
         )
         #
@@ -94,7 +94,7 @@ class TestNegative:
         await car_coll.add_doc(car)
 
         await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
+            morphology=full_text_settings.MORPHOLOGY.get("English"),
             full_text_filter=("year", "Some query string"),
         )
         #
@@ -124,14 +124,14 @@ class TestPositive:
             await car_coll.add_doc(car)
         # Find a car
         car: Car | None = await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
+            morphology=full_text_settings.MORPHOLOGY.get("English"),
             full_text_filter=("brand", "SONY"),
         )
 
         assert car is None
 
         car_2: Car | None = await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("English"),
+            morphology=full_text_settings.MORPHOLOGY.get("English"),
             full_text_filter=("model", "EZ-6 9"),
         )
 
@@ -159,13 +159,13 @@ class TestPositive:
             await car_coll.add_doc(car)
         # Find a car
         car_list: list[Car] | None = await car_coll.plugins.fullText.find_many(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("en"),
+            morphology=full_text_settings.MORPHOLOGY.get("en"),
             full_text_filter=("description", "the future of all humanity"),
         )
         assert car_list is None
 
         car_list_2: list[Car] | None = await car_coll.plugins.fullText.find_many(
-            morphology=full_text_settings.LANG_MORPHOLOGY.get("en"),
+            morphology=full_text_settings.MORPHOLOGY.get("en"),
             full_text_filter=("description", "future of automotive"),
         )
         assert car_list_2 is not None

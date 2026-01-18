@@ -10,7 +10,7 @@ The module contains the following parameters:
 
 from __future__ import annotations
 
-__all__ = ("LANG_MORPHOLOGY",)
+__all__ = ("MORPHOLOGY",)
 
 from manticoresearch.configuration import Configuration
 from xloft import AliasDict
@@ -18,7 +18,7 @@ from xloft import AliasDict
 CONFIG = Configuration(host="http://127.0.0.1:9312")
 
 # List of supported languages for full-text search.
-LANG_MORPHOLOGY: AliasDict = AliasDict(
+MORPHOLOGY: AliasDict = AliasDict(
     [
         ({"Arabic", "ar"}, "libstemmer_ar"),
         ({"Catalan", "ca"}, "libstemmer_ca"),
