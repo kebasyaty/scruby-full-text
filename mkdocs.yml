@@ -79,7 +79,8 @@ extra:
 
 nav:
   - Scruby-Full-Text: index.md
-  - Install: pages/install.md
+  - Installation: pages/installation.md
   - Usage: pages/usage.md
+  - Ianguages: pages/languages.md
   - Settings: pages/settings.md
   - Plugin: pages/plugin.md
