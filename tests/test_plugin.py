@@ -37,11 +37,6 @@ class Car(ScrubyModel):
 class TestNegative:
     """Negative tests."""
 
-    @pytest.mark.xfail(
-        raises=(AttributeError, Exception),
-        reason="Error: 'Car' object has no attribute 'non_existent_field'",
-        strict=True,
-    )
     async def test_full_text_filter_field_name(self) -> None:
         """Invalid full_text_filter[0]->field name."""
         # Delete DB.
@@ -62,19 +57,18 @@ class TestNegative:
         # add to database
         await car_coll.add_doc(car)
 
-        await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.MORPHOLOGY.get("English"),
-            full_text_filter=("non_existent_field", "Some query string"),
-        )
+        with pytest.raises(
+            AttributeError,
+            match=r"'Car' object has no attribute 'non_existent_field'",
+        ):
+            await car_coll.plugins.fullText.find_one(
+                morphology=full_text_settings.MORPHOLOGY.get("English"),
+                full_text_filter=("non_existent_field", "Some query string"),
+            )
         #
         # Delete DB.
         Scruby.napalm()
 
-    @pytest.mark.xfail(
-        raises=(AssertionError, Exception),
-        reason="Error: full_text_filter[0] must be the name of an existing text field!'",
-        strict=True,
-    )
     async def test_full_text_filter_field_type(self) -> None:
         """Invalid full_text_filter[0]->field type."""
         # Delete DB.
@@ -93,10 +87,14 @@ class TestNegative:
         # add to database
         await car_coll.add_doc(car)
 
-        await car_coll.plugins.fullText.find_one(
-            morphology=full_text_settings.MORPHOLOGY.get("English"),
-            full_text_filter=("year", "Some query string"),
-        )
+        with pytest.raises(
+            AssertionError,
+            match=r"Error: full_text_filter\[0\] must be the name of an existing text field!",
+        ):
+            await car_coll.plugins.fullText.find_one(
+                morphology=full_text_settings.MORPHOLOGY.get("English"),
+                full_text_filter=("year", "Some query string"),
+            )
         #
         # Delete DB.
         Scruby.napalm()
