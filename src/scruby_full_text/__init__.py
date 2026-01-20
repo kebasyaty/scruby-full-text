@@ -19,9 +19,9 @@
 from __future__ import annotations
 
 __all__ = (
-    "FullText",
-    "settings",
+    "FullTextSearch",
+    "FullTextSettings",
 )
 
-from scruby_full_text import settings
-from scruby_full_text.plugin import FullText
+from scruby_full_text.plugin import FullTextSearch
+from scruby_full_text.settings import FullTextSettings

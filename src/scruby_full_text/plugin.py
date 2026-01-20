@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-__all__ = ("FullText",)
+__all__ = ("FullTextSearch",)
 
 import concurrent.futures
 import uuid
@@ -18,11 +18,11 @@ import orjson
 from anyio import Path
 from scruby_plugin import ScrubyPlugin
 
-from scruby_full_text import settings
+from scruby_full_text.settings import FullTextSettings
 
 
 @final
-class FullText(ScrubyPlugin):
+class FullTextSearch(ScrubyPlugin):
     """Plugin for Scruby based on Manticore Search."""
 
     def __init__(self, scruby: Any) -> None:  # noqa: D107
@@ -130,7 +130,7 @@ class FullText(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
-        config = settings.CONFIG
+        config = FullTextSettings.config
         # Run quantum loop
         with concurrent.futures.ThreadPoolExecutor(scruby._max_workers) as executor:
             for branch_number in branch_numbers:
@@ -187,7 +187,7 @@ class FullText(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
-        config = settings.CONFIG
+        config = FullTextSettings.config
         counter: int = 0
         number_docs_skippe: int = limit_docs * (page_number - 1) if page_number > 1 else 0
         result: list[Any] = []
