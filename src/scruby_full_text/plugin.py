@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-__all__ = ("FullText",)
+__all__ = ("FullTextSearch",)
 
 import concurrent.futures
 import uuid
@@ -22,7 +22,7 @@ from scruby_full_text import settings
 
 
 @final
-class FullText(ScrubyPlugin):
+class FullTextSearch(ScrubyPlugin):
     """Plugin for Scruby based on Manticore Search."""
 
     def __init__(self, scruby: Any) -> None:  # noqa: D107
