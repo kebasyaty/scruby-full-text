@@ -14,12 +14,13 @@ from __future__ import annotations
 
 __all__ = ("FullTextSettings",)
 
-from typing import ClassVar
+from typing import ClassVar, final
 
 from manticoresearch.configuration import Configuration
 from xloft import AliasDict
 
 
+@final
 class FullTextSettings:
     """Plugin settings."""
 
