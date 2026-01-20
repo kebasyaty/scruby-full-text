@@ -18,7 +18,7 @@ import orjson
 from anyio import Path
 from scruby_plugin import ScrubyPlugin
 
-from scruby_full_text import settings
+from scruby_full_text.settings import FullTextSettings
 
 
 @final
@@ -130,7 +130,7 @@ class FullTextSearch(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
-        config = settings.CONFIG
+        config = FullTextSettings.config
         # Run quantum loop
         with concurrent.futures.ThreadPoolExecutor(scruby._max_workers) as executor:
             for branch_number in branch_numbers:
@@ -187,7 +187,7 @@ class FullTextSearch(ScrubyPlugin):
         hash_reduce_left: int = scruby._hash_reduce_left
         db_root: str = scruby._db_root
         class_model: Any = scruby._class_model
-        config = settings.CONFIG
+        config = FullTextSettings.config
         counter: int = 0
         number_docs_skippe: int = limit_docs * (page_number - 1) if page_number > 1 else 0
         result: list[Any] = []
