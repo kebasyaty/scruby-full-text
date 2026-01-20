@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import manticoresearch
 import pytest
 from pydantic import Field
 from scruby import Scruby, ScrubyModel, ScrubySettings
@@ -9,6 +10,7 @@ from scruby import Scruby, ScrubyModel, ScrubySettings
 from scruby_full_text import FullTextSearch, FullTextSettings
 
 pytestmark = pytest.mark.asyncio(loop_scope="module")
+
 
 # Plugins connection.
 ScrubySettings.plugins = [
@@ -69,6 +71,33 @@ class TestNegative:
             await car_coll.plugins.fullTextSearch.find_many(
                 morphology=FullTextSettings.morphology.get("English"),
                 full_text_filter=("non_existent_field", "Some query string"),
+            )
+        #
+        # Delete DB.
+        Scruby.napalm()
+
+    async def test_full_text_filter_field_type(self) -> None:
+        """Invalid full_text_filter[0]->field type."""
+        # Delete DB.
+        Scruby.napalm()
+        #
+        # Get collection `Car`
+        car_coll = await Scruby.collection(Car)
+        # Create car.
+        car = Car(
+            brand="Mazda",
+            model="EZ-6",
+            year=2025,
+            power_reserve=600,
+            description="Electric cars are the future of the global automotive industry.",
+        )
+        # add to database
+        await car_coll.add_doc(car)
+
+        with pytest.raises(manticoresearch.exceptions.ConflictException):
+            await car_coll.plugins.fullTextSearch.find_one(
+                morphology=FullTextSettings.morphology.get("English"),
+                full_text_filter=("year", "Some query string"),
             )
         #
         # Delete DB.
