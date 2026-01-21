@@ -159,6 +159,6 @@ if __name__ == "__main__":
 
 ## License
 
-[![MIT](https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/links/link-mit.svg "MIT")](https://github.com/kebasyaty/scruby-full-text/blob/main/LICENSE "MIT")
+[![MIT](https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/links/link-mit.svg "MIT")](https://github.com/kebasyaty/scruby-full-text/blob/main/MIT-LICENSE "MIT")
 
-[![GPL-3.0](https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/links/link-gpl-3.0-or-later.svg "GPL-3.0")](https://github.com/kebasyaty/scruby-full-text/blob/main/LICENSE "GPL-3.0")
+[![GPL-3.0](https://raw.githubusercontent.com/kebasyaty/scruby-full-text/v0/assets/links/link-gpl-3.0-or-later.svg "GPL-3.0")](https://github.com/kebasyaty/scruby-full-text/blob/main/GPL-3.0-LICENSE "GPL-3.0")
