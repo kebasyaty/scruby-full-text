@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+#### v0.4.0 2026-01-24
+
+- Added `delete_orphaned_tables` method for delete orphaned tables left with an error.
+- Updated tests.
+- Updated README.md
+- Updated documentation.
+
 #### v0.3.0 2026-01-20
 
 - Moved all parameters in the settings module to the `FullTextSettings` class.
