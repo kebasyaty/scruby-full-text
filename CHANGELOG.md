@@ -1,5 +1,13 @@
 ### CHANGELOG
 
+#### v0.5.0 2026-01-24
+
+- Added an algorithm for using database identifier.
+- Upgraded dependencies.
+- Updated tests.
+- Updated README.md
+- Updated documentation.
+
 #### v0.4.0 2026-01-24
 
 - Added `delete_orphaned_tables` method for delete orphaned tables left with an error.

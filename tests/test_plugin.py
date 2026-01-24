@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import manticoresearch
 import pytest
 from pydantic import Field
 from scruby import Scruby, ScrubyModel, ScrubySettings
@@ -35,7 +36,7 @@ class Car(ScrubyModel):
 
 async def test_delete_orphaned_tables() -> None:
     """Delete unnecessary tables that remain due to errors."""
-    await FullTextSearch.delete_orphaned_tables()
+    await FullTextSearch.delete_orphaned_tables(ScrubySettings)
 
 
 class TestNegative:
@@ -59,13 +60,19 @@ class TestNegative:
         # add to database
         await car_coll.add_doc(car)
 
-        with pytest.raises(Exception):  # noqa: B017, PT011
+        with pytest.raises(
+            AttributeError,
+            match=r"'Car' object has no attribute 'non_existent_field'",
+        ):
             await car_coll.plugins.fullTextSearch.find_one(
                 morphology=FullTextSettings.morphology.get("English"),
                 full_text_filter=("non_existent_field", "Some query string"),
             )
 
-        with pytest.raises(Exception):  # noqa: B017, PT011
+        with pytest.raises(
+            AttributeError,
+            match=r"'Car' object has no attribute 'non_existent_field'",
+        ):
             await car_coll.plugins.fullTextSearch.find_many(
                 morphology=FullTextSettings.morphology.get("English"),
                 full_text_filter=("non_existent_field", "Some query string"),
@@ -74,6 +81,10 @@ class TestNegative:
         # Delete DB.
         Scruby.napalm()
 
+    @pytest.mark.xfail(
+        raises=manticoresearch.exceptions.ConflictException,
+        strict=True,
+    )
     async def test_full_text_filter_field_type(self) -> None:
         """Invalid full_text_filter[0]->field type."""
         # Delete DB.
@@ -92,11 +103,15 @@ class TestNegative:
         # add to database
         await car_coll.add_doc(car)
 
-        with pytest.raises(Exception):  # noqa: B017, PT011
-            await car_coll.plugins.fullTextSearch.find_one(
-                morphology=FullTextSettings.morphology.get("English"),
-                full_text_filter=("year", "Some query string"),
-            )
+        await car_coll.plugins.fullTextSearch.find_one(
+            morphology=FullTextSettings.morphology.get("English"),
+            full_text_filter=("year", "Some query string"),
+        )
+
+        await car_coll.plugins.fullTextSearch.find_many(
+            morphology=FullTextSettings.morphology.get("English"),
+            full_text_filter=("year", "Some query string"),
+        )
         #
         # Delete DB.
         Scruby.napalm()
