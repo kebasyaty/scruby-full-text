@@ -89,26 +89,32 @@ class FullTextSearch(ScrubyPlugin):
                 index_api = manticoresearch.IndexApi(api_client)
                 search_api = manticoresearch.SearchApi(api_client)
                 utils_api = manticoresearch.UtilsApi(api_client)
-                # Create table
-                await utils_api.sql(f"CREATE TABLE {table_name}({table_field}) morphology = '{morphology}'")
-                # Start search
-                for _, val in data.items():
-                    doc = class_model.model_validate_json(val)
-                    if filter_fn(doc):
-                        text_field_content = getattr(doc, text_field_name)
-                        # Performs a search on a table
-                        insert_request = manticoresearch.InsertDocumentRequest(
-                            table=table_name,
-                            doc={text_field_name: text_field_content or ""},
-                        )
-                        await index_api.insert(insert_request)
-                        search_response = await search_api.search(search_request)
-                        if len(search_response.hits.hits) > 0:
-                            docs.append(doc)
-                        # Clear table
-                        await utils_api.sql(f"TRUNCATE TABLE {table_name}")
-                # Delete table
-                await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
+                try:
+                    # Create table
+                    await utils_api.sql(f"CREATE TABLE {table_name}({table_field}) morphology = '{morphology}'")
+                    # Start search
+                    for _, val in data.items():
+                        doc = class_model.model_validate_json(val)
+                        if filter_fn(doc):
+                            text_field_content = getattr(doc, text_field_name)
+                            # Performs a search on a table
+                            insert_request = manticoresearch.InsertDocumentRequest(
+                                table=table_name,
+                                doc={text_field_name: text_field_content or ""},
+                            )
+                            await index_api.insert(insert_request)
+                            search_response = await search_api.search(search_request)
+                            if len(search_response.hits.hits) > 0:
+                                docs.append(doc)
+                            # Clear table
+                            await utils_api.sql(f"TRUNCATE TABLE {table_name}")
+                    # Delete table
+                    await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
+                except Exception as err:
+                    raise Exception from err
+                finally:
+                    # Delete table
+                    await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
         return docs or None
 
     async def find_one(
