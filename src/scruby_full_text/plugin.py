@@ -29,12 +29,13 @@ class FullTextSearch(ScrubyPlugin):
         ScrubyPlugin.__init__(self, scruby_self)
 
     @classmethod
-    async def delete_orphaned_tables(cls) -> None:
+    async def delete_orphaned_tables(cls, scruby_settings: Any) -> None:
         """Delete unnecessary tables that remain due to errors."""
+        db_id = scruby_settings.db_id
         config = FullTextSettings.config
         async with manticoresearch.ApiClient(config) as api_client:
             utils_api = manticoresearch.UtilsApi(api_client)
-            tables = await utils_api.sql("SHOW TABLES LIKE 'scruby_%'")
+            tables = await utils_api.sql(f"SHOW TABLES LIKE 'scruby_{db_id}%'")
             oneof_schema_1_validator = tables.oneof_schema_1_validator
             if oneof_schema_1_validator is not None:
                 data = oneof_schema_1_validator[0]["data"]
@@ -51,6 +52,7 @@ class FullTextSearch(ScrubyPlugin):
         db_root: str,
         class_model: Any,
         config: manticoresearch.configuration.Configuration,
+        db_id: str,
     ) -> list[Any] | None:
         """Task for finding documents, using full-text search.
 
@@ -73,7 +75,7 @@ class FullTextSearch(ScrubyPlugin):
         if await leaf_path.exists():
             data_json: bytes = await leaf_path.read_bytes()
             data: dict[str, str] = orjson.loads(data_json) or {}
-            table_name: str = "scruby_" + str(uuid.uuid4()).replace("-", "_")[:8]
+            table_name: str = f"scruby_{db_id}_{str(uuid.uuid4())[:8]}"
             text_field_name: str = full_text_filter[0]
             table_field: str = f"{text_field_name} text"
             search_query = manticoresearch.SearchQuery(
@@ -144,6 +146,7 @@ class FullTextSearch(ScrubyPlugin):
         db_root: str = scruby_self._db_root
         class_model: Any = scruby_self._class_model
         config = FullTextSettings.config
+        db_id = scruby_self._db_id
         # Run quantum loop
         with concurrent.futures.ThreadPoolExecutor(scruby_self._max_workers) as executor:
             for branch_number in branch_numbers:
@@ -157,6 +160,7 @@ class FullTextSearch(ScrubyPlugin):
                     db_root,
                     class_model,
                     config,
+                    db_id,
                 )
                 docs = await future.result()
                 if docs is not None:
@@ -202,6 +206,7 @@ class FullTextSearch(ScrubyPlugin):
         db_root: str = scruby_self._db_root
         class_model: Any = scruby_self._class_model
         config = FullTextSettings.config
+        db_id = scruby_self._db_id
         counter: int = 0
         number_docs_skippe: int = limit_docs * (page_number - 1) if page_number > 1 else 0
         result: list[Any] = []
@@ -220,6 +225,7 @@ class FullTextSearch(ScrubyPlugin):
                     db_root,
                     class_model,
                     config,
+                    db_id,
                 )
                 docs = await future.result()
                 if docs is not None:

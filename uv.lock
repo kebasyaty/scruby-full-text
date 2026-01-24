@@ -1227,6 +1227,15 @@ wheels = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.2.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6", size = 44221, upload-time = "2025-10-26T15:12:10.434Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c305e1fe0f814c6c74aea7b2f1e10989cb30f544a1b3253/python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61", size = 21230, upload-time = "2025-10-26T15:12:09.109Z" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1327,7 +1336,7 @@ wheels = [
 
 [[package]]
 name = "scruby"
-version = "0.34.7"
+version = "0.35.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1335,10 +1344,11 @@ dependencies = [
     { name = "phonenumbers" },
     { name = "pydantic", extra = ["email", "timezone"] },
     { name = "pydantic-extra-types" },
+    { name = "python-dotenv" },
     { name = "xloft" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5b/9b/89ce1a865e533db54e89b9dd18de008033353cd25c3d5123f5576f77e13c/scruby-0.34.7-py3-none-any.whl", hash = "sha256:bfca43f599f2b4b923acedb19eb3f59cfbf2ca4b15f671da57ccd45066e87d9d", size = 32743, upload-time = "2026-01-23T18:34:43.437Z" },
+    { url = "https://files.pythonhosted.org/packages/45/a6/edd2fb8e4a5e17d137aa0bfde6c14ba80f74c51ad6baee7c66faf7cc1db0/scruby-0.35.0-py3-none-any.whl", hash = "sha256:72e663044b6b2f9d296bf4d977d7b0f37e728af3dab6a8a6e27e7c844efa4eea", size = 33139, upload-time = "2026-01-24T18:25:13.674Z" },
 ]
 
 [[package]]

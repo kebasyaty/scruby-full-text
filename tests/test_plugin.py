@@ -36,7 +36,7 @@ class Car(ScrubyModel):
 
 async def test_delete_orphaned_tables() -> None:
     """Delete unnecessary tables that remain due to errors."""
-    await FullTextSearch.delete_orphaned_tables()
+    await FullTextSearch.delete_orphaned_tables(ScrubySettings)
 
 
 class TestNegative:
