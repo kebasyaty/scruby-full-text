@@ -108,10 +108,6 @@ class FullTextSearch(ScrubyPlugin):
                                 docs.append(doc)
                             # Clear table
                             await utils_api.sql(f"TRUNCATE TABLE {table_name}")
-                    # Delete table
-                    await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
-                except Exception as err:
-                    raise Exception from err
                 finally:
                     # Delete table
                     await utils_api.sql(f"DROP TABLE IF EXISTS {table_name}")
