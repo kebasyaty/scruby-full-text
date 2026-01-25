@@ -16,6 +16,7 @@ from typing import Any, final
 import manticoresearch
 import orjson
 from anyio import Path
+from scruby import Scruby, ScrubySettings
 from scruby_plugin import ScrubyPlugin
 
 from scruby_full_text.settings import FullTextSettings
@@ -25,13 +26,13 @@ from scruby_full_text.settings import FullTextSettings
 class FullTextSearch(ScrubyPlugin):
     """Plugin for Scruby based on Manticore Search."""
 
-    def __init__(self, scruby_self: Any) -> None:  # noqa: D107
+    def __init__(self, scruby_self: Scruby) -> None:  # noqa: D107
         ScrubyPlugin.__init__(self, scruby_self)
 
     @classmethod
-    async def delete_orphaned_tables(cls, scruby_settings: Any) -> None:
+    async def delete_orphaned_tables(cls) -> None:
         """Delete unnecessary tables that remain due to errors."""
-        db_id = scruby_settings.db_id
+        db_id = ScrubySettings.db_id
         config = FullTextSettings.config
         async with manticoresearch.ApiClient(config) as api_client:
             utils_api = manticoresearch.UtilsApi(api_client)
