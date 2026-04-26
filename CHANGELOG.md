@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+#### v0.7.0 2026-04-26
+
+- Renamed project - `scruby-fts`.
+- Upgraded dependencies.
+- Updated README.md
+- Updated documentation.
+
 #### v0.5.0 2026-01-24
 
 - Added an algorithm for using database identifier.
