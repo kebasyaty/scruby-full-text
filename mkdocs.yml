@@ -1,10 +1,11 @@
-site_name: Scruby-Full-Text Docs
+site_name: Scruby-FTS Docs
 site_description: "Full-text search with Manticore Search."
-site_url: https://kebasyaty.github.io/scruby-full-text/
+site_url: https://kebasyaty.github.io/scruby-fts/
 site_author: kebasyaty
-copyright: Copyright &copy; 2026 Maintained by <a href="https://github.com/kebasyaty">kebasyaty</a>
-repo_name: kebasyaty/scruby-full-text
-repo_url: https://github.com/kebasyaty/scruby-full-text
+copyright: Copyright &copy; 2026 Maintained by <a
+  href="https://github.com/kebasyaty">kebasyaty</a>
+repo_name: kebasyaty/scruby-fts
+repo_url: https://github.com/kebasyaty/scruby-fts
 
 theme:
   name: material
@@ -46,7 +47,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [src]
+          paths: [ src ]
           options:
             docstring_style: google
 
@@ -78,7 +79,7 @@ extra:
       link: https://twitter.com
 
 nav:
-  - Scruby-Full-Text: index.md
+  - Scruby-FTS: index.md
   - Installation: pages/installation.md
   - Usage: pages/usage.md
   - Ianguages: pages/languages.md

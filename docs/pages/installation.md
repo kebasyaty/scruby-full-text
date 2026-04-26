@@ -1,7 +1,7 @@
-#### Install Scruby-Full-Text
+#### Install Scruby-FTS
 
 ```shell
-uv add scruby-full-text
+uv add scruby-fts
 ```
 
 #### Install Manticore Search

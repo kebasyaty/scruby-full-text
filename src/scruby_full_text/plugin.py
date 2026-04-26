@@ -1,4 +1,4 @@
-# Scruby-Full-Text - Full-text search with Manticore Search.
+# Scruby-FTS - Full-text search with Manticore Search.
 # Copyright (c) 2026 Gennady Kostyunin
 # SPDX-License-Identifier: MIT
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -62,7 +62,7 @@ class FullTextSearch(ScrubyPlugin):
         Returns:
             List of documents or None.
         """
-        branch_number_as_hash: str = f"{branch_number:08x}"[hash_reduce_left:]
+        branch_number_as_hash: str = f"{branch_number:08x}"[hash_reduce_left:]  # pyrefly: ignore[bad-index]
         separated_hash: str = "/".join(list(branch_number_as_hash))
         leaf_path = Path(
             *(
